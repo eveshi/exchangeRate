@@ -1,0 +1,22 @@
+input{
+    margin: 10px;
+    height: 25px;
+    font-size: 14px;
+    border-bottom: 1px solid #015386;
+    color: #015386;
+    font-family: Sunflower-Light;
+    border-top: none;
+    border-left: none;
+    border-right: none;
+    width: 200px;
+    background-color: transparent;
+}
+
+.alert{
+    font-size: 14px;
+    margin: 0px;
+    text-align: right;
+    width: 90%;
+    color: #D30208;
+    font-weight: bolder;
+}

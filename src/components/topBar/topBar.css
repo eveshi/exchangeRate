@@ -1,0 +1,23 @@
+.topBar{
+    border-bottom: 3px solid #F5EED5;
+}
+
+.pageTitle{
+    height: 70px;
+    display: table;
+    width: 100%;
+}
+
+.pageTitle div{
+    text-align: center;
+    font-size: 24px;
+    font-family: 'Sunflower-Medium';
+    color: #015386;
+    letter-spacing: 1px;
+    display: table-cell;
+    vertical-align: middle;
+}
+
+.childrenComponent{
+    height: 30px;
+}
