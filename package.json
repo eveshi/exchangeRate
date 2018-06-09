@@ -1,0 +1,20 @@
+{
+  "name": "exchange-rate-fifa-2018-ver",
+  "version": "0.1.0",
+  "private": true,
+  "proxy": "http://localhost:5000/",
+  "scripts": {
+    "client": "react-scripts start",
+    "server": "node server/routes/server.js",
+    "start": "npm run server",
+    "heroku-postbuild": "npm install --only=dev && npm install && npm run build",
+    "build": "react-scripts build",
+    "test": "react-scripts test --env=jsdom"
+  },
+  "dependencies": {
+    "express": "^4.16.3",
+    "react": "^16.4.0",
+    "react-dom": "^16.4.0",
+    "react-scripts": "1.1.4"
+  }
+}
