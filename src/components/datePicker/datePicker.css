@@ -8,14 +8,24 @@
 .selectedDate{
     display: flex;
     flex-direction: row;
-    justify-content: space-around;
+    justify-content: center;
     align-items: center;
-    width: 150px;
+    width: 100%;
     text-align: center;
+    height: 30px;
+    color: #015386;
+    border-bottom: 3px solid #F5EED5;
+}
+
+.selectedDate button{
+    margin-top: 0px;
+    border: none;
+    box-shadow: none;
     font-family: Sunflower-Light;
     font-size: 20px;
-    height: 30px;
-    color:  #015386;
+    width: 100%;
+    color: #015386;
+    width: 150px;
 }
 
 .selectedDate p{
@@ -26,7 +36,7 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    position: absolute;
+    position: fixed;
     left: 50%;
     top: 50%;
     transform: translate(-50%,-50%);

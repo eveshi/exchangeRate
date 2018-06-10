@@ -4,5 +4,20 @@ import classes from './index.css';
 import App from './containers/App/App';
 import registerServiceWorker from './registerServiceWorker';
 
-ReactDOM.render(<App />, document.getElementById('root'));
+import { Provider } from 'react-redux';
+import { createStore, applyMiddleware, compose } from 'redux';
+import thunk from 'redux-thunk';
+import user from './store/reducer/userReducer.js'
+
+const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
+
+const store = createStore(user, composeEnhancers(
+    applyMiddleware(thunk)
+  ));
+
+ReactDOM.render(
+    <Provider store={store}>
+        <App />
+    </Provider>, 
+    document.getElementById('root'));
 registerServiceWorker();

@@ -3,8 +3,10 @@ import { Link } from 'react-router-dom';
 import dateFns from 'date-fns'
 import FontAwesomeIcon from '@fortawesome/react-fontawesome'
 import { faCaretLeft, faCaretRight } from '@fortawesome/fontawesome-free-solid'
+
 import Input from '../input/input'
 import Button from '../button/button'
+import Backdrops from '../backdrops/backdrops'
 import classes from './datePicker.css'
 
 class DatePicker extends Component{
@@ -36,6 +38,7 @@ class DatePicker extends Component{
         },
         ifSubmitDisabled: 'disabled',
         newSelectedDate: '',
+        showPicker: false,
     }
 
     componentWillMount(){
@@ -169,6 +172,22 @@ class DatePicker extends Component{
         })
     }
 
+    changeShowPicker = () => {
+        this.setState({
+            showPicker: ! this.state.showPicker
+        })
+    }
+
+    hidePicker = () => {
+        this.setState({
+            showPicker: false
+        })
+    }
+
+    refreshPage = () => {
+        window.location.reload()
+    }
+
     render(){
         const inputForm = Object.keys(this.state.inputForm).map((key) => {
             return(
@@ -188,30 +207,39 @@ class DatePicker extends Component{
             <div className={classes.datePicker}>
                 <div className={classes.selectedDate}>
                     <FontAwesomeIcon icon={faCaretRight} />
-                    <p>{this.state.selectedDate}</p>
+                    <Button 
+                        onClick={this.changeShowPicker} 
+                        name={this.state.selectedDate} />
                     <FontAwesomeIcon icon={faCaretLeft} />
                 </div>
-                <div className={classes.dateInput}>
-                    <form className={classes.inputForm}>
-                        {inputForm}
-                        <p>{this.state.weekdays}</p>
-                    </form>
-                    <Link to={'/history?date='+ this.state.selectedDate}
-                        style={this.state.ifSubmitDisabled==='disabled'?
-                                null
-                                :{backgroundColor:'#d30208', 
-                                    color:'#f5eed5',
-                                    boxShadow:'1px 1px 2px 1px #171714'}}>
-                        <Button 
-                            name='Submit'
-                            disabled={this.state.ifSubmitDisabled} />
-                    </Link>
-                    <div className={classes.useCurrentDate}>
-                        <Button 
-                            name='Use Current Date'
-                            onClick={this.useCurrentDate} />
+                {this.state.showPicker?
+                    <div className={classes.dateInput}>
+                        <form className={classes.inputForm}>
+                            {inputForm}
+                            <p>{this.state.weekdays}</p>
+                        </form>
+                        <Link to={'/history?date='+ this.state.newSelectedDate}
+                            style={this.state.ifSubmitDisabled==='disabled'?
+                                    null
+                                    :{backgroundColor:'#d30208', 
+                                        color:'#f5eed5',
+                                        boxShadow:'1px 1px 2px 1px #171714'}}>
+                            <Button 
+                                name='Submit'
+                                disabled={this.state.ifSubmitDisabled}
+                                onClick={this.refreshPage} />
+                        </Link>
+                        <div className={classes.useCurrentDate}>
+                            <Button 
+                                name='Use Current Date'
+                                onClick={this.useCurrentDate} />
+                        </div>
                     </div>
-                </div>
+                    :
+                    null}
+                <Backdrops 
+                    showBackdrops={this.state.showPicker}
+                    onClick={this.hidePicker} />
             </div>
         )
     }

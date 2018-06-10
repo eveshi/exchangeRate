@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import FontAwesomeIcon from '@fortawesome/react-fontawesome'
-import { faHome, faUserAstronaut, faExchangeAlt } from '@fortawesome/fontawesome-free-solid'
+import { faHome, faUserAstronaut } from '@fortawesome/fontawesome-free-solid'
 import classes from './toolbar.css'
 
 class Toolbar extends Component{

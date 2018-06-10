@@ -1,0 +1,107 @@
+.wholeComponent{
+    height: 90px;
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+}
+
+.listItem{
+    margin-top: 20px;
+    display: flex;
+    flex-direction: row;
+    border: 1px solid #f5eed5;
+    border-radius: 5px;
+    width: 90%;
+    justify-content: space-around;
+    height: 80px;
+    align-items: center;
+    background-color: #ffffff;
+    position: absolute;
+    z-index: 20;
+}
+
+.currencyDetails{
+    display: flex;
+    flex-direction: column;
+    width: 50%;
+    font-family: Sunflower-Light;
+    margin-left: 20px
+}
+
+.currencyName{
+    display: flex;
+    flex-direction: row;
+    height: 25px;
+    align-items: center;
+    margin-top: 8px;
+    color: #E5C685;
+    font-size: 14px;
+}
+
+.currencyName p{
+    margin-left: 10px;
+}
+
+.currencyCode{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.currencyCode p{
+    font-size: 32px;
+    margin: 0px;
+    color: #015386;
+}
+
+.rate{
+    font-size: 42px;
+    margin: 0px 20px 0px 0px;
+    width: 60%;
+    text-align: right;
+    color: #d30208;
+}
+
+.itemShadowV{
+    margin-top: 20px;
+    width: 95%;
+    height: 120px;
+    background-color: #f5eed5;
+    border-radius: 20%;
+    position: absolute;
+    z-index: 10;
+}
+
+.itemShadowH{
+    margin-top: 20px;
+    width: 90%;
+    height: 120px;
+    background-color: #e8dfc9;
+    border-radius: 35%;
+    position: absolute;
+    z-index: 15;
+}
+
+.delete{
+    position: relative;
+    right: 8px;
+    cursor: pointer;
+}
+
+.deleteIcon{
+    color: #ffffff;
+    position: relative;
+    top: 30px;
+    left: 5px;
+    z-index: 30;
+}
+
+.deleteIconBg{
+    position: absolute;
+    z-index: 5;
+    border-top: 22px solid transparent;
+    border-bottom: 22px solid transparent;
+    border-left: 22px solid #015386;
+    border-radius: 2px;
+    transform: rotate(45deg);
+}
