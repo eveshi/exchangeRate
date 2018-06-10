@@ -1,4 +1,9 @@
 export {
-    loginSuccessfully,
-    logout
+    signinSuccessfully,
+    logout,
 } from './user'
+
+export {
+    loadData,
+    changeStared
+} from './dataManage'

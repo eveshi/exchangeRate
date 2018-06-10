@@ -1,0 +1,33 @@
+.subTitle{
+    display: flex;
+    flex-direction: row;
+    margin-left: 5%;
+    height: 30px;
+}
+
+.firstContent p{
+    margin: 15px 15px 0px 6px;
+    position: absolute;
+    font-size: 16px;
+    z-index: 50;
+    color: #ffffff;
+}
+
+.background{
+    background-color: #171714;
+    margin-top: 15px;
+    width: 50px;
+    height: 22px;
+    transform: skew(-15deg);
+    position: absolute;
+    z-index: 25;
+    border-radius: 5px;
+}
+
+.secondContent{
+    margin-top: 15px;
+    position: absolute;
+    margin-left: 60px;
+    font-size: 16px;
+    color: #171714;
+}

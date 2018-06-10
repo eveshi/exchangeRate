@@ -48,6 +48,15 @@ class DatePicker extends Component{
         })
     }
 
+    shouldComponentUpdate(nextProps){
+        if(this.props.selectedDate !== nextProps.selectedDate){
+            this.setState({
+                selectedDate: dateFns.format(nextProps.selectedDate, 'YYYY-MM-DD'),
+            })
+        }
+        return true
+    }
+
     inputChangeHandler = (event, key) => {
         const value = event.target.value
         switch(key){
@@ -167,7 +176,7 @@ class DatePicker extends Component{
                     isUpToStandard: true
                 }
             },
-            newSelectedDate: dateFns.format(new Date(), 'YYYYMMDD'),
+            newSelectedDate: dateFns.format(new Date(), 'YYYY-MM-DD'),
             ifSubmitDisabled: null,
         })
     }
@@ -185,7 +194,34 @@ class DatePicker extends Component{
     }
 
     refreshPage = () => {
-        window.location.reload()
+        this.setState({
+            inputForm:{
+                year: {
+                    placeholder: 'YYYY',
+                    value: '',
+                    maxlength: '4',
+                    isUpToStandard: null,
+                    alert: 'invalid year',
+                },
+                month: {
+                    placeholder: 'MM',
+                    value: '',
+                    maxlength: '2',
+                    isUpToStandard: null,
+                    alert: 'invalid month',
+                },
+                day: {
+                    placeholder: 'DD',
+                    value: '',
+                    maxlength: '2',
+                    isUpToStandard: null,
+                    alert: 'invalid date',
+                },
+            },
+            ifSubmitDisabled: 'disabled',
+            newSelectedDate: '',
+            showPicker: false,
+        })
     }
 
     render(){

@@ -1,0 +1,86 @@
+.searchIcon{
+    position: fixed;
+    color: #171714;
+    z-index: 2300;
+    right: 20px;
+    top: 20px;
+    font-size: 18px;
+    cursor: pointer;
+}
+
+.searchField input{
+    width: 100%;
+    margin: 0px;
+    height: 60px;
+    background-color: #171714;
+    position: fixed;
+    z-index: 2200;
+    border-bottom: 2px solid #e5c685;
+    color: #f5eed5;
+    font-size: 24px;
+    padding-left: 40px;
+    padding-bottom: 0px;
+    letter-spacing: 2px;
+    font-family: Sunflower-Meidum;
+}
+
+.searchResults{
+    position: absolute;
+    z-index: 2100;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 60px;
+    font-family: Sunflower-Meidum;
+}
+
+.resultItem{
+    margin-top: 10px;
+    height: 60px;
+    width: 80%;
+    display: -ms-flexbox;
+    display: flex;
+    flex-direction: row;
+    border-bottom: 2px solid #e5c685
+}
+
+.currency{
+    width: 73%;
+    padding-left: 7%;
+    padding-top: 10px;
+}
+
+.currencyName{
+    font-size: 12px;
+    margin: 0px;
+}
+
+.currencyCode{
+    font-size: 24px;
+    margin: 0px;
+}
+
+.rate{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    width: 60%;
+    justify-content: space-between;
+    padding-top: 25px;
+}
+
+.rate p{
+    font-size: 32px;
+    margin: 0px;
+}
+
+.plusIcon{
+    font-size: 24px;
+    color: #e5c685;
+    cursor: pointer;
+}
+
+.backdrops div{
+    z-index: 2000;
+}

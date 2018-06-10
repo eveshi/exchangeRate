@@ -1,16 +1,21 @@
 import React, { Component } from 'react'
-import { BrowserRouter, Route } from 'react-router-dom'
+import { BrowserRouter, Route, Switch } from 'react-router-dom'
 import Layout from '../../hoc/layout/layout'
 
+import UserDetails from '../pages/userDetails/userDetails'
+import Register from '../pages/register/register'
 import Rate from '../pages/rate/rate'
-import classes from './App.css'
 
 class App extends Component {
   render() {
     return(
       <BrowserRouter>
         <Layout>
-          <Route path='/' component={Rate} />
+          <Switch>
+            <Route path='/user' component={UserDetails} />
+            <Route path='/register' component={Register} />
+            <Route path='/' component={Rate} />
+          </Switch>
         </Layout>
       </BrowserRouter>
     )

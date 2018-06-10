@@ -1,34 +1,37 @@
-import * as actionTypes from './actionTypes';
+import * as actionTypes from './actionTypes'
 
-export const loginSuccessfully = (userData) => {
+export const signinSuccessfully = (userData) => {
     return {
-        type: actionTypes.LOGIN_SUCCESSFULLY,
-        login: true,
-        userData: userData
-    }
-}
-
-export const loginFailed = (err) => {
-    return {
-        type: actionTypes.LOGIN_FAILED,
-        login: false,
-        err: err
+        type: actionTypes.signin_SUCCESSFULLY,
+        signin: true,
+        userData: userData,
+        currencyStared: userData.stared
     }
 }
 
 export const logout = (initUserData) => {
     return {
         type:actionTypes.LOGOUT,
-        login: false,
+        signin: false,
         userData: {
             name: null,
             email: null,
             password: null,
-            profilePic: null,
             stared: null,
-            liked: null,
-            post: null,
-            category: null,
         }
+    }
+}
+
+export const loadData = (currencyData) => {
+    return {
+        type: actionTypes.LOAD_DATA,
+        currencyData: currencyData
+    }
+}
+
+export const changeStared = (currencyStared) => {
+    return {
+        type: actionTypes.CHANGE_STARED,
+        currencyStared: currencyStared
     }
 }

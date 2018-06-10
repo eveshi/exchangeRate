@@ -6,21 +6,19 @@ import * as actions from '../../../store/action/index'
 
 
 import TopBar from '../../../components/topBar/topBar'
+import SubTitle from '../../../components/subTitle/subTitle'
+import Search from '../../../components/search/search'
 import DatePicker from '../../../components/datePicker/datePicker'
 import ExchangeList from '../../../components/exchangeList/exchangeList'
 import classes from './rate.css'
 
 class Rate extends Component{
     state={
-        currencyShowed:[
-            'CNY',
-            'JPY',
-            'EUR',
-        ],
+        currencyStared: this.props.currencyStared,
         exchangeRate:{
 
         },
-        currencyAll:{
+        currencyName:{
 
         },
         selectedDate: new Date()
@@ -29,16 +27,35 @@ class Rate extends Component{
     componentWillMount(){
         const paramsGet = this.props.location.search
         const date = new URLSearchParams(paramsGet).get('date')
-        console.log(date)
         if(date !== undefined && date !== null){
             this.setState({
                 selectedDate: dateFns.parse(date)
             })
-            console.log(date)
             this.getHistoryRate(date)
         }else{
             this.getCurrentRate()
         }
+    }
+
+    shouldComponentUpdate(nextProps){
+        if(this.props.location.search !== nextProps.location.search){
+            const paramsGet = nextProps.location.search
+            const date = new URLSearchParams(paramsGet).get('date')
+            if(date !== undefined && date !== null){
+                this.setState({
+                    selectedDate: dateFns.parse(date)
+                })
+                this.getHistoryRate(date)
+            }else{
+                this.getCurrentRate()
+            }
+        }
+        if(this.props.currencyStared !== nextProps.currencyStared){
+            this.setState({
+                currencyStared: nextProps.currencyStared
+            })
+        }
+        return true
     }
 
     getCurrentRate = () => {
@@ -50,17 +67,16 @@ class Rate extends Component{
                 })
                 axios.post('/api/getCurrency')
                     .then((res) => {
-                        const currencyAll = res.data
+                        const currencyName = res.data
                         this.setState({
-                            currencyAll: currencyAll
+                            currencyName: currencyName
                         })
+                        this.sortCurrencyDataForRedux()
                     })
             })
     }
 
     getHistoryRate = (date) => {
-        console.log('what')
-        console.log(date)
         axios.post('/api/getHistoryExchangeRate',
             {
                 date: date
@@ -72,31 +88,63 @@ class Rate extends Component{
                 })
                 axios.post('/api/getCurrency')
                     .then((res) => {
-                        const currencyAll = res.data
+                        const currencyName = res.data
                         this.setState({
-                            currencyAll: currencyAll
+                            currencyName: currencyName
                         })
+                        this.sortCurrencyDataForRedux()
                     })
             })
     }
 
+    sortCurrencyDataForRedux = () => {
+        let sortedData = {}
+        Object.keys(this.state.exchangeRate).map((key) => {
+            const currencyName = this.state.currencyName[key]
+            const item = {
+                [currencyName]:{
+                    code: key,
+                    rate: this.state.exchangeRate[key]
+                }
+            }
+            sortedData = {
+                ...sortedData,
+                ...item
+            }
+        })
+        this.props.loadData(sortedData)
+    }
+
     deleteCurrency = (currencyCode) => {
-        const currencyShowed = this.state.currencyShowed
+        const currencyStared = this.state.currencyStared
         let newCurrencyArray = []
-        for(let item of currencyShowed){
+        for(let item of currencyStared){
             if(item !== currencyCode){
                 newCurrencyArray.push(item)
             }
         }
         this.setState({
-            currencyShowed: newCurrencyArray
+            currencyStared: newCurrencyArray
+        })
+        this.props.changeStared(newCurrencyArray)
+        if(this.props.signin === true){
+            this.changeStared(newCurrencyArray)
+        }
+    }
+
+    changeStared = (currencyStared) => {
+        axios.post('/api/changeStared',{
+            currencyStared: currencyStared,
+            email: this.props.userData.email
+        }).then((res) => {
+            this.props.signinSuccessfully(res.data)
         })
     }
 
     render(){
-        const rateTable = this.state.currencyShowed.map((currency) => {
+        const rateTable = this.state.currencyStared.map((currency) => {
             const exchangeRate = this.state.exchangeRate[currency]
-            const currencyName = this.state.currencyAll[currency]
+            const currencyName = this.state.currencyName[currency]
             return {
                 code: currency,
                 name: currencyName,
@@ -120,7 +168,11 @@ class Rate extends Component{
                 <TopBar pageTitle='Exchange Rate' >
                     <DatePicker selectedDate={this.state.selectedDate}/>
                 </TopBar>
+                <Search />
                 <div className={classes.rateContent}>
+                    <SubTitle
+                        firstContent='Base'
+                        secondContent='US Doller' />
                     {rateTableDisplay}
                 </div>
             </div>
@@ -130,14 +182,18 @@ class Rate extends Component{
 
 const mapStateToProps = state => {
     return{
-        login: state.login,
-        userData: state.userData
+        signin: state.signin,
+        userData: state.userData,
+        currencyData: state.currencyData,
+        currencyStared: state.currencyStared
     }
 }
 
 const mapActionsToProps = dispatch => {
     return{
-        loginSuccessfully: (userData) => dispatch(actions.loginSuccessfully(userData))
+        loadData: (currencyData) => dispatch(actions.loadData(currencyData)),
+        changeStared: (currencyStared) => dispatch(actions.changeStared(currencyStared)),
+        signinSuccessfully: (userData) => dispatch(actions.signinSuccessfully(userData))
     }
 }
 

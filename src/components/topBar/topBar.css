@@ -1,7 +1,7 @@
 .topBar{
     border-bottom: 3px solid #F5EED5;
     z-index: 1000;
-    position: absolute;
+    position: fixed;
     width: 100%;
     background-color: #ffffff;
 }

@@ -1,0 +1,55 @@
+.changePassword{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: fixed;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%,-50%);
+}
+
+.email{
+    margin: 0px;
+    text-align: center;
+    color: #171714;
+    font-family: Sunflower-Light;
+}
+
+.changePassword input{
+    margin: 0px 10px;
+    height: 25px;
+    font-size: 14px;
+    border-bottom: 1.3px solid grey;
+    border-top: none;
+    border-left: none;
+    border-right: none;
+    width: 200px;
+    background-color: transparent;
+}
+
+.changePassword button{
+    width: 200px;
+    height: 40px;
+    background-color: transparent;
+    border-radius: 5px;
+    box-shadow: 0.5px 1px 0.5px grey;
+    font-size: 18px;
+    margin-top: 0px;
+    color: #015386;
+    font-weight: bold;
+}
+
+.singleItem{
+    height: 60px;
+    margin: 0px auto 40px auto;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    flex-direction: row;
+    justify-content: space-between;
+
+}
+
+.singleItem p{
+    font-size: 13px;
+}
