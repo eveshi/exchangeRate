@@ -1,9 +1,8 @@
-import React, { Component } from 'react';
-import { connect } from 'react-redux';
+import React, { Component } from 'react'
+import { connect } from 'react-redux'
 import * as actions from '../../../store/action/index'
-import axios from '../../../axios_data';
-import bcrypt from 'bcryptjs';
-import { Link } from 'react-router-dom'
+import axios from '../../../axios_data'
+import bcrypt from 'bcryptjs'
 
 import Input from '../../../components/input/input'
 import Button from '../../../components/button/button'

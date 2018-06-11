@@ -91,6 +91,7 @@ class Search extends Component{
                     <div className={classes.rate}>
                         <p>{this.state.results[key].rate}</p>
                         <div 
+                            id='addStared'
                             onClick={() => this.addStared(this.state.results[key].code)}
                             className={classes.plusIcon}>
                             <FontAwesomeIcon icon={faPlus} />
@@ -103,6 +104,7 @@ class Search extends Component{
         return(
             <div>
                 <div 
+                    id="searchIcon"
                     onClick={this.showSearchHandler}
                     className={classes.searchIcon}
                     style={this.state.showSearch?
