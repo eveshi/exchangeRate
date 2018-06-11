@@ -103,8 +103,7 @@ class Search extends Component{
 
         return(
             <div>
-                <div 
-                    id="searchIcon"
+                <div
                     onClick={this.showSearchHandler}
                     className={classes.searchIcon}
                     style={this.state.showSearch?
