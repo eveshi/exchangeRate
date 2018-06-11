@@ -12,7 +12,7 @@ In details, all the icons are from [font awesome](https://fontawesome.com/); [da
 3. Run `npm start` or `npm run server`. Then check https://localhost:5000.
 
 #### Preview
-<img width="200" src="https://raw.githubusercontent.com/eveshi/exchangeRate/master/README/001.png"> <img width="200" src="https://raw.githubusercontent.com/eveshi/exchangeRate/master/README/002.png"> <img width="200" src="https://raw.githubusercontent.com/eveshi/exchangeRate/master/README/003.png.PNG"> <img width="200" src="https://raw.githubusercontent.com/eveshi/exchangeRate/master/README/004.png">
+<img width="200" src="https://raw.githubusercontent.com/eveshi/exchangeRate/master/README/001.png"> <img width="200" src="https://raw.githubusercontent.com/eveshi/exchangeRate/master/README/002.png"> <img width="200" src="https://raw.githubusercontent.com/eveshi/exchangeRate/master/README/003.png"> <img width="200" src="https://raw.githubusercontent.com/eveshi/exchangeRate/master/README/004.png">
 
 **This web-app is mainly designed for mobile users, although it is use responsive styling in some part, but still not very good looking in desktop computer.
 
