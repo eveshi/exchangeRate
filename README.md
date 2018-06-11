@@ -10,6 +10,7 @@ In details, all the icons are from [font awesome](https://fontawesome.com/); [da
 1. `git clone git@github.com:eveshi/exchangeRate.git`
 2. `npm install`
 3. Run `npm start` or `npm run server`. Then check https://localhost:5000.
+4. Run client alone with `npm run client`. Then check https://localhost:3000.
 
 #### Preview
 <img width="200" src="https://raw.githubusercontent.com/eveshi/exchangeRate/master/README/001.png"> <img width="200" src="https://raw.githubusercontent.com/eveshi/exchangeRate/master/README/002.png"> <img width="200" src="https://raw.githubusercontent.com/eveshi/exchangeRate/master/README/003.png"> <img width="200" src="https://raw.githubusercontent.com/eveshi/exchangeRate/master/README/004.png">
