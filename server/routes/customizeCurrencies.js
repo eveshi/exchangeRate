@@ -1,38 +1,38 @@
-const express = require('express');
 const createError = require('http-errors');
+const express = require('express');
 
-const User = require('../model/user');
+const CustomizeCurrency = require('../model/customizeCurrency');
 
 const router = express.Router();
 
-// Create
+// Create new CustomizeCurrency with user
 router.post('/', async (req, res, next) => {
   try {
-    if (!req.body.user) {
-      next(createError(400, 'Bad Requst'));
+    if (!req.body.customizeCurrency) {
+      next(createError(400, 'bad_request'));
     }
 
-    await User.create(req.body.user, (err) => {
+    await CustomizeCurrency.create(req.body.CustomizeCurrency, (err) => {
       next(err);
     });
 
     res.json({
-      message: 'post user successfully',
+      message: 'post customizeCurrency successfully',
     });
     return;
-  } catch (err) {
-    next(err);
+  } catch (error) {
+    next(error);
   }
 });
 
-// Read user
+// Read CustomizeCurrencys
 router.get('/', async (req, res, next) => {
   try {
     if (!req.body.email) {
       next(createError(400, 'bad_request'));
     }
 
-    await User.findOne(
+    await CustomizeCurrency.findOne(
       { email: req.body.email },
       (err) => {
         next(err);
@@ -40,7 +40,7 @@ router.get('/', async (req, res, next) => {
     );
 
     res.json({
-      message: 'post user successfully',
+      message: 'get customizeCurrencys successfully',
     });
     return;
   } catch (error) {
@@ -48,25 +48,24 @@ router.get('/', async (req, res, next) => {
   }
 });
 
-// Update user password
+// Update old CustomizeCurrency
 router.patch('/', async (req, res, next) => {
   try {
-    if (!req.body.user ||
-        !req.body.user.email ||
-        !req.body.user.password) {
+    if (!req.body.email ||
+        !req.body.customizeCurrencys) {
       next(createError(400, 'bad_request'));
     }
 
-    await User.updateOne(
-      { email: req.body.user.email },
-      { password: req.body.password },
+    await CustomizeCurrency.updateOne(
+      { email: req.body.CustomizeCurrency.email },
+      { CustomizeCurrencys: req.body.CustomizeCurrencys },
       (err) => {
         next(err);
       },
     );
 
     res.json({
-      message: 'update user successfully',
+      message: 'delete customizeCurrency successfully',
     });
     return;
   } catch (error) {
@@ -74,14 +73,14 @@ router.patch('/', async (req, res, next) => {
   }
 });
 
-// Delete user
+// Delete CustomizeCurrencys with user
 router.delete('/', async (req, res, next) => {
   try {
     if (!req.body.email) {
       next(createError(400, 'bad_request'));
     }
 
-    await User.deleteOne(
+    await CustomizeCurrency.deleteOne(
       { email: req.body.email },
       (err) => {
         next(err);
@@ -89,7 +88,7 @@ router.delete('/', async (req, res, next) => {
     );
 
     res.json({
-      message: 'post user successfully',
+      message: 'post CustomizeCurrency successfully',
     });
     return;
   } catch (error) {
@@ -98,4 +97,3 @@ router.delete('/', async (req, res, next) => {
 });
 
 module.exports = router;
-

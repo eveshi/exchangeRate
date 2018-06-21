@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import dateFns from 'date-fns'
 import FontAwesomeIcon from '@fortawesome/react-fontawesome'
 import { faCaretLeft, faCaretRight } from '@fortawesome/fontawesome-free-solid'
+'reudx-form'
 
 import Input from '../input/input'
 import Button from '../button/button'

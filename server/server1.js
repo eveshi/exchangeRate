@@ -1,14 +1,12 @@
-const express = require('express')
-const path = require('path')
-const bodyParser = require('body-parser')
+const express = require('express');
+const path = require('path');
+const bodyParser = require('body-parser');
 // axios
-const request = require('request')
-const MongoClient = require('mongodb').MongoClient;
-const mongooseModel = require('../model/user')
+
+
 const bcrypt = require('react-native-bcrypt')
 
 const app = express()
-const apiRoutes = express.Router();
 
 const port = process.env.PORT || 5000
 
@@ -189,5 +187,3 @@ app.use((err, req, res, next) => {
         message: 'adi!'
     })
 });
-
-app.listen(port, () => console.log(`Listening on port ${port}`))

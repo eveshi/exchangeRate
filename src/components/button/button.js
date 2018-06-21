@@ -1,5 +1,10 @@
 import React from 'react'
 import classes from './button.css'
+import classnames from classnames;
+
+classnames({
+    'disabled': props.disabled
+})
 
 const button = (props) => {
     return (
@@ -8,7 +13,7 @@ const button = (props) => {
             onClick={props.onClick} 
             disabled={props.disabled}
             style={props.style}>
-            {props.name}
+            {props.children}
         </button>
     )
 };

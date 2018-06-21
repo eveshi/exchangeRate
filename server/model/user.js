@@ -9,12 +9,6 @@ const userModelSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  stared: {
-    type: Array,
-    required: true,
-  },
-},{
-  collection: 'user'
-})
+});
 
-module.exports = mongoose.model('userModel', userModelSchema)
+module.exports = mongoose.model('userModel', userModelSchema);

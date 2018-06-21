@@ -18,20 +18,17 @@ mongoose.connect(
 );
 
 const app = express();
-app.listen(port);
 
-app.use(bodyParser.urlencoded({ extended: true }));
-
-app.use(express.static(path.join(__dirname, '../build')));
-app.get('/', (req, res, next) => {
-  try {
-    res.sendFile(path.join(__dirname, '../build/index.html'));
-  } catch (err) {
-    next(err);
-  }
-});
-
-app.use('/users', users);
-app.use('/currencies', currencies);
-
-app.use(errorHandling);
+app.listen(port)
+  .use(bodyParser.urlencoded({ extended: true }))
+  .use(express.static(path.join(__dirname, '../build')))
+  .get('/', (req, res, next) => {
+    try {
+      res.sendFile(path.join(__dirname, '../build/index.html'));
+    } catch (err) {
+      next(err);
+    }
+  })
+  .use('/users', users)
+  .use('/currencies', currencies)
+  .use(errorHandling);

@@ -10,6 +10,7 @@ import user from './store/reducer/userReducer.js'
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
+// combineReducer
 const store = createStore(user, composeEnhancers(
     applyMiddleware(thunk)
   ));
