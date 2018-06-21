@@ -9,43 +9,49 @@ import Button from '../button/button'
 import Backdrops from '../backdrops/backdrops'
 import classes from './datePicker.css'
 
-class DatePicker extends Component{
-    state={
-        currentDate: '',
-        selectedDate: '',
-        inputForm:{
-            year: {
-                placeholder: 'YYYY',
-                value: '',
-                maxlength: '4',
-                isUpToStandard: null,
-                alert: 'invalid year',
-            },
-            month: {
-                placeholder: 'MM',
-                value: '',
-                maxlength: '2',
-                isUpToStandard: null,
-                alert: 'invalid month',
-            },
-            day: {
-                placeholder: 'DD',
-                value: '',
-                maxlength: '2',
-                isUpToStandard: null,
-                alert: 'invalid date',
-            },
+const INITIAL_STATE = {
+    currentDate: '',
+    selectedDate: '',
+    inputForm:{
+        year: {
+            placeholder: 'YYYY',
+            value: '',
+            maxlength: '4',
+            isUpToStandard: null,
+            alert: 'invalid year',
         },
-        ifSubmitDisabled: 'disabled',
-        newSelectedDate: '',
-        showPicker: false,
-    }
+        month: {
+            placeholder: 'MM',
+            value: '',
+            maxlength: '2',
+            isUpToStandard: null,
+            alert: 'invalid month',
+        },
+        day: {
+            placeholder: 'DD',
+            value: '',
+            maxlength: '2',
+            isUpToStandard: null,
+            alert: 'invalid date',
+        },
+    },
+    ifSubmitDisabled: 'disabled',
+    newSelectedDate: '',
+    showPicker: false,
+};
+
+class DatePicker extends Component{
+    state=INITIAL_STATE
 
     componentWillMount(){
         this.setState({
             currentDate: new Date(),
             selectedDate: dateFns.format(this.props.selectedDate, 'YYYY-MM-DD'),
         })
+    }
+    
+    componentDidUpdate() {
+        this.refreshPage();
     }
 
     shouldComponentUpdate(nextProps){
@@ -57,7 +63,12 @@ class DatePicker extends Component{
         return true
     }
 
-    inputChangeHandler = (event, key) => {
+    onClick() {
+        closePicker()；
+        this.props.onClick();
+    }
+
+    inputChangeHandler = (key) => (event) => {
         const value = event.target.value
         switch(key){
             case 'year':
@@ -235,7 +246,7 @@ class DatePicker extends Component{
                     isUpToStandard={this.state.inputForm[key].isUpToStandard}
                     alert={this.state.inputForm[key].alert}
                     type={this.state.inputForm[key].type} 
-                    onChange={(event) => this.inputChangeHandler(event, key)}/>
+                    onChange={this.inputChangeHandler(key)}/>
             )
         })
 
@@ -254,17 +265,23 @@ class DatePicker extends Component{
                             {inputForm}
                             <p>{this.state.weekdays}</p>
                         </form>
-                        <Link to={'/history?date='+ this.state.newSelectedDate}
+                        
+                        <Button 
+                            type="button"
+                            disabled={this.state.ifSubmitDisabled}
+                        >
+                            <Link
+                            to={'/history?date='+ this.state.newSelectedDate}
+                            className="a"
                             style={this.state.ifSubmitDisabled==='disabled'?
                                     null
                                     :{backgroundColor:'#d30208', 
                                         color:'#f5eed5',
-                                        boxShadow:'1px 1px 2px 1px #171714'}}>
-                            <Button 
-                                name='Submit'
-                                disabled={this.state.ifSubmitDisabled}
-                                onClick={this.refreshPage} />
-                        </Link>
+                                        boxShadow:'1px 1px 2px 1px #171714'}}
+                            >
+                                Submit
+                            </Link>
+                        <Button />
                         <div className={classes.useCurrentDate}>
                             <Button 
                                 name='Use Current Date'
@@ -275,7 +292,8 @@ class DatePicker extends Component{
                     null}
                 <Backdrops 
                     showBackdrops={this.state.showPicker}
-                    onClick={this.hidePicker} />
+                    onClick={this.hidePicker}
+                />
             </div>
         )
     }

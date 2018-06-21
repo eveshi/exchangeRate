@@ -1,14 +1,17 @@
 const express = require('express')
 const path = require('path')
 const bodyParser = require('body-parser')
+// axios
 const request = require('request')
 const MongoClient = require('mongodb').MongoClient;
 const mongooseModel = require('../model/user')
 const bcrypt = require('react-native-bcrypt')
 
 const app = express()
-console.log('PORT:', process.env.PORT)
+const apiRoutes = express.Router();
+
 const port = process.env.PORT || 5000
+
 app.use(express.static(path.join(__dirname, '../../build')))
 app.use(bodyParser.urlencoded({ extended: true }))
 
@@ -16,31 +19,30 @@ app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, '../../build', 'index.html'))
 });
 
+// CHANGE_RATE_URL
 const changeRatesUrl = 'https://openexchangerates.org/api/'
 const changeRateUser = '1983105210844c4e8e40c9294f33d1f7'
 
-app.post('/api/getCurrency', (req, res) => {
-  res.header('Access-Control-Allow-Origin', 'http://localhost:3000')
-  res.header('Access-Control-Allow-Credentials', 'true')
-  let currency = {}
+apiRoutes.get('/currency', (req, res) => {
+
   request(changeRatesUrl+'currencies.json', (err, r, data)=> {
     if(err){
       console.log(err.stack)
     }
     
-    currency = data
-    res.send(currency)
+    res.send(data)
   })
 })
 
-app.post('/api/getCurrentExchangeRate', (req, res) => {
+apiRoutes.get('/current-exchange-rate', (req, res) => {
   res.header('Access-Control-Allow-Origin', 'http://localhost:3000')
   res.header('Access-Control-Allow-Credentials', 'true')
   let exchangeRate = {}
-  request(changeRatesUrl+'latest.json?app_id='+changeRateUser, (err, r, data) => {
+  request(`${changeRatesUrl}latest.json?app_id=${changeRateUser}`, (err, r, data) => {
     if(err){
       console.log(err.stack)
     }
+
     
     exchangeRate = JSON.parse(data).rates
     let fixedChangeRate = {}
@@ -54,81 +56,105 @@ app.post('/api/getCurrentExchangeRate', (req, res) => {
   })
 })
 
-app.post('/api/getHistoryExchangeRate', (req, res) => {
+apiRoutes.post('/getHistoryExchangeRate', (req, res) => {
   res.header('Access-Control-Allow-Origin', 'http://localhost:3000')
   res.header('Access-Control-Allow-Credentials', 'true')
   const date = req.body.date
   console.log(date)
-  let exchangeRate = {}
+  
   request(changeRatesUrl+'historical/'+date+'.json?app_id='+changeRateUser, (err, r, data) => {
     if(err){
       console.log(err.stack)
     }
 
-    exchangeRate = JSON.parse(data).rates
-    let fixedChangeRate = {}
-    Object.keys(exchangeRate).map((key) => {
-      const item = {[key]: exchangeRate[key].toFixed(2)}
-      fixedChangeRate = {
-        ...fixedChangeRate,
-        ...item}
-    })
-    console.log(fixedChangeRate)
+    const exchangeRate = JSON.parse(data).rates
+    
+    const fixedChangeRate = Object.keys(exchangeRate).reduce((acc, currency) => {
+      return {
+        ...acc,
+        [currency]: exchangeRate[currency].toFixed(2)
+    }
+    }, {});
     res.send(fixedChangeRate)
   })
 })
 
-app.post('/api/signup',async(req,res) => {
+apiRoutes.post('/signup', async (req,res, next) => {
     res.header('Access-Control-Allow-Origin', 'http://localhost:3000')
     res.header('Access-Control-Allow-Credentials', 'true')
-    const userData = req.body.newUser
-    const email=userData.email
-    await mongooseModel.findOne({email:email}, (err, user)=>{
-        if(err){
-            console.log(err.stack)
-        }
+
+    try {
+        const {newUser} = req.body;
+        const email=newUser.email;
+
+        const user = await mongooseModel.findOne({email:email});
+
         if(user){
             res.send('The email has been registered')
-        }else{
-            const newUser = new mongooseModel(userData)
-            newUser.save(
-                () => {
-                    res.send('Successfully Registered')
-                }
-            )
+            return;
         }
-  })
+    
+        await mongooseModel.create(newUser)
+        res.send('Successfully Registered')
+    } catch (err) {
+        next(err);
+        return;
+    }
 })
 
-app.post('/api/signin', async(req,res) => {
+app.use((req,res,next) => {
     res.header('Access-Control-Allow-Origin', 'http://localhost:3000')
     res.header('Access-Control-Allow-Credentials', 'true')
-    const userData = req.body.oldUser
-    const email = userData.email
-    const password = userData.password
-    await mongooseModel.findOne({email:email}, (err, user)=>{
-        if(err){
-            console.log(err.stack)
-        }
-        if(user){
-            if(bcrypt.compareSync(password, user.password)){
-                res.send(user)
-            }else{
-                res.send('wrong password')
-            }
-        }else{
-            res.send('invalid email')
-        }
-    })
+
+    next()
 })
 
-app.post('/api/changePassword', async(req,res) => {
+apiRoutes.post('/signin', async(req,res, next) => {
+
+    try {
+        if(!req.body.oldUser){
+            throw new Error('400')
+        }
+    
+        const userData = req.body.oldUser
+        const email = userData.email
+        const password = userData.password
+
+        const user = await mongooseModel.findOne({email:email});
+
+        if (!user) {
+            // TODO: error
+            res.send('invalid email');
+            return;
+        }
+    
+        if(!bcrypt.compareSync(password, user.password)){
+            // TODO: error
+            res.send('wrong password')
+            return;
+        }
+    
+        res.send(user)
+        return;
+        
+    } catch (error) {
+
+        next(error)
+        
+    }
+})
+
+apiRoutes.post('/change-password', async(req,res) => {
     res.header('Access-Control-Allow-Origin', 'http://localhost:3000')
     res.header('Access-Control-Allow-Credentials', 'true')
     const password = req.body.password
     const email = req.body.email
-    if(password !== undefined && password !== ''){
-        await mongooseModel.findOneAndUpdate({email:email},{password:password},{new:true},(err,user) => {
+    if(password){
+        await mongooseModel.findOneAndUpdate(
+            {email:email},
+            {password:password},
+            {new:true},
+            (err,user) => {
             if(err){
                 console.log(err.stack)
                 res.send('fail')
@@ -138,7 +164,7 @@ app.post('/api/changePassword', async(req,res) => {
     }
 })
 
-app.post('/api/changeStared', async(req,res) => {
+apiRoutes.patch('/users/:user_id', async(req,res) => {
     res.header('Access-Control-Allow-Origin', 'http://localhost:3000')
     res.header('Access-Control-Allow-Credentials', 'true')
     const currencyStared = req.body.currencyStared
@@ -153,5 +179,15 @@ app.post('/api/changeStared', async(req,res) => {
         })
     }
 })
-      
+
+app.use('/api', apiRoutes);
+
+app.use((err, req, res, next) => {
+    console.log(err.stack)
+    res.send({
+        code: 'InvalidRequest',
+        message: 'adi!'
+    })
+});
+
 app.listen(port, () => console.log(`Listening on port ${port}`))
