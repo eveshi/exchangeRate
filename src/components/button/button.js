@@ -1,21 +1,26 @@
-import React from 'react'
-import classes from './button.css'
-import classnames from classnames;
+import React from 'react';
+import PropTypes from 'prop-types';
+import classes from './Button.css';
 
-classnames({
-    'disabled': props.disabled
-})
 
-const button = (props) => {
-    return (
-        <button 
-            className={`${props.className} ${classes.button}`} 
-            onClick={props.onClick} 
-            disabled={props.disabled}
-            style={props.style}>
-            {props.children}
-        </button>
-    )
+const button = props => (
+  <button
+    className={classes.button}
+    onClick={props.onClick}
+    disabled={props.disabled}
+  >
+    {props.children}
+  </button>
+);
+
+button.propTypes = {
+  onClick: PropTypes.func.isRequired,
+  disabled: PropTypes.string,
+  children: PropTypes.node.isRequired,
 };
 
-export default button
+button.defaultProps = {
+  disabled: null,
+};
+
+export default button;

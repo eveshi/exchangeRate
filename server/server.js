@@ -4,9 +4,10 @@ const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 
 const users = require('./routes/users');
-const currencies = require('./routes/currencies');
+const currencies = require('./routes/rates');
 
 const errorHandling = require('./error-handling');
+const handling404 = require('./404handling');
 
 const port = process.env.port || 5000;
 
@@ -31,4 +32,5 @@ app.listen(port)
   })
   .use('/users', users)
   .use('/currencies', currencies)
+  .use(handling404)
   .use(errorHandling);
