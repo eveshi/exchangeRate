@@ -20,8 +20,9 @@ mongoose.connect(
 
 const app = express();
 
-app.listen(port)
-  .use(bodyParser.urlencoded({ extended: true }))
+app.listen(port);
+
+app.use(bodyParser.urlencoded({ extended: true }))
   .use(express.static(path.join(__dirname, '../build')))
   .get('/', (req, res, next) => {
     try {
@@ -29,8 +30,10 @@ app.listen(port)
     } catch (err) {
       next(err);
     }
-  })
-  .use('/users', users)
-  .use('/currencies', currencies)
-  .use(handling404)
+  });
+
+app.use('/users', users)
+  .use('/currencies', currencies);
+
+app.use(handling404)
   .use(errorHandling);

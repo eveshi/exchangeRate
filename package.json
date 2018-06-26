@@ -5,7 +5,7 @@
   "proxy": "http://localhost:5000/",
   "scripts": {
     "client": "node scripts/start.js",
-    "server": "node server/routes/server.js",
+    "server": "node server/server.js",
     "start": "npm run server",
     "build": "node scripts/build.js",
     "test": "node scripts/test.js --env=jsdom"

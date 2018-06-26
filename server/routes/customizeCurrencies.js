@@ -19,7 +19,6 @@ router.post('/', async (req, res, next) => {
     res.json({
       message: 'post customizeCurrency successfully',
     });
-    return;
   } catch (error) {
     next(error);
   }
@@ -42,7 +41,6 @@ router.get('/', async (req, res, next) => {
     res.json({
       message: 'get customizeCurrencys successfully',
     });
-    return;
   } catch (error) {
     next(error);
   }
@@ -67,7 +65,6 @@ router.patch('/', async (req, res, next) => {
     res.json({
       message: 'delete customizeCurrency successfully',
     });
-    return;
   } catch (error) {
     next(error);
   }
@@ -77,20 +74,14 @@ router.patch('/', async (req, res, next) => {
 router.delete('/', async (req, res, next) => {
   try {
     if (!req.body.email) {
-      next(createError(400, 'bad_request'));
+      throw createError(400, 'bad_request');
     }
 
-    await CustomizeCurrency.deleteOne(
-      { email: req.body.email },
-      (err) => {
-        next(err);
-      },
-    );
+    await CustomizeCurrency.deleteOne({ email: req.body.email });
 
     res.json({
       message: 'post CustomizeCurrency successfully',
     });
-    return;
   } catch (error) {
     next(error);
   }
