@@ -1,13 +1,11 @@
-const ERROR_HANDLING = (err, req, res, next) => {
-  if (err.state === 404) {
-    res.status(404).json({
-      code: 404,
-      type: 'page_not_found',
-      message: 'Page Not Found',
-    });
-  }
+const ERROR_HANDLING = (req, res, next) => {
+  res.status(404).json({
+    code: 404,
+    type: 'page_not_found',
+    message: 'Page Not Found',
+  });
 
   next();
 };
 
-module.export = ERROR_HANDLING;
+module.exports = ERROR_HANDLING;

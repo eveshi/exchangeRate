@@ -8,11 +8,11 @@ const router = express.Router();
 // Create new CustomizeCurrency with user
 router.post('/', async (req, res, next) => {
   try {
-    if (!req.body.customizeCurrency) {
+    if (!req.body.customizCurrency) {
       next(createError(400, 'bad_request'));
     }
 
-    await CustomizeCurrency.create(req.body.CustomizeCurrency, (err) => {
+    await CustomizeCurrency.create(req.body.customizeCurrency, (err) => {
       next(err);
     });
 
@@ -28,7 +28,7 @@ router.post('/', async (req, res, next) => {
 router.get('/', async (req, res, next) => {
   try {
     if (!req.body.email) {
-      next(createError(400, 'bad_request'));
+      next(createError(400, 'Bad request. Email not found.'));
     }
 
     await CustomizeCurrency.findOne(
@@ -38,6 +38,7 @@ router.get('/', async (req, res, next) => {
       },
     );
 
+    // get what?????????????
     res.json({
       message: 'get customizeCurrencys successfully',
     });
@@ -51,7 +52,7 @@ router.patch('/', async (req, res, next) => {
   try {
     if (!req.body.email ||
         !req.body.customizeCurrencys) {
-      next(createError(400, 'bad_request'));
+      next(createError(400, 'Bad Request. Email or currencies not found.'));
     }
 
     await CustomizeCurrency.updateOne(

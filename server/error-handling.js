@@ -18,4 +18,4 @@ const ERROR_HANDLING = (err, req, res, next) => {
   next();
 };
 
-module.export = ERROR_HANDLING;
+module.exports = ERROR_HANDLING;
